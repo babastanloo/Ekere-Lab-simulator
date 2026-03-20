@@ -1,8 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="ocean">
 <head>
+<style id="twa-mobile-critical">
+/* TWA Mobile Critical Override - prevents Chrome from using desktop layout */
+html {
+  font-size: 14px !important;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+body {
+  width: 100vw !important;
+  min-width: 0 !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+/* Force mobile nav visible, desktop nav hidden at all times on small screens */
+@media screen and (max-width: 600px) {
+  #nav   { display: none !important; max-width: 100% !important; }
+  #mnav  { display: flex !important; }
+  .view  { padding: 10px 10px 80px !important; width: 100% !important; max-width: 100% !important; }
+  #hdr   { height: 50px !important; padding: 0 10px !important; }
+  .logo-sub { display: none !important; }
+  /* Prevent any element from being wider than screen */
+  * { max-width: 100vw !important; box-sizing: border-box !important; }
+  /* Allow certain elements to overflow naturally */
+  pre, code, .pktlog, #terminal, #topo-canvas,
+  #topo-canvas-wrap, .topo-main { max-width: none !important; }
+  /* Fix auth card */
+  .auth-card { 
+    width: calc(100vw - 24px) !important; 
+    max-width: calc(100vw - 24px) !important;
+    margin: 12px !important;
+    padding: 24px 16px !important;
+  }
+  #auth-overlay {
+    padding: 12px !important;
+    align-items: flex-start !important;
+    padding-top: 40px !important;
+  }
+  /* Inputs 16px to prevent zoom */
+  input, select, textarea, .auth-input {
+    font-size: 16px !important;
+  }
+}
+</style>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,viewport-fit=cover,user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
 <meta name="HandheldFriendly" content="true">
 <meta name="MobileOptimized" content="width">
 <meta name="mobile-web-app-capable" content="yes">
