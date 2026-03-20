@@ -2,15 +2,16 @@
 <html lang="en" data-theme="ocean">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#0B0F14">
-<meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: light)">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,viewport-fit=cover,user-scalable=yes">
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="width">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ekere Labs">
 <meta name="application-name" content="Ekere Labs">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#0B0F14">
 <meta name="description" content="Master CCNA 200-301 with interactive practice questions, CLI labs, and AI-powered tutoring.">
 <meta name="keywords" content="CCNA, networking, Cisco, exam simulator, practice questions">
 <meta name="author" content="Ekere Labs">
@@ -1202,6 +1203,96 @@ kbd{background:var(--bg3);padding:1px 5px;border-radius:3px;font-family:var(--fo
   .card:hover   { transform:none }
   .aopt:hover:not(:disabled) { transform:none }
   .lesson-card:hover { transform:none }
+}
+
+/* ═══════════════════════════════════════
+   ANDROID TWA / PWA — Force mobile layout
+   Prevents desktop mode in installed APK
+   ═══════════════════════════════════════ */
+@media screen and (max-width: 599px),
+       screen and (max-device-width: 599px) {
+
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+  }
+
+  /* Hide desktop nav, show mobile nav */
+  #nav    { display: none !important }
+  #mnav   { display: flex !important }
+
+  /* Stack views properly */
+  .view {
+    padding: 10px 12px 80px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Header compact */
+  #hdr {
+    height: 50px !important;
+    padding: 0 12px !important;
+  }
+
+  .logo > div > span {
+    font-size: 15px !important;
+  }
+
+  .logo-sub { display: none !important }
+
+  /* Cards full width */
+  .card, .qcard, .stat-card,
+  .subcard-wrap, .grade-wrap,
+  .psim-wrap, .ins-chat-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 12px !important;
+  }
+
+  /* Dashboard grid single column */
+  .dash-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  /* Answer options full width */
+  .aopt {
+    width: 100% !important;
+    font-size: 13px !important;
+    padding: 11px 12px !important;
+  }
+
+  /* Buttons readable on mobile */
+  .btn {
+    font-size: 12px !important;
+    padding: 10px 14px !important;
+    min-height: 42px !important;
+  }
+
+  /* Topology hides sidebar on small screens */
+  #topo-sidebar { display: none !important }
+  #topo-canvas-wrap { width: 100% !important }
+
+  /* Auth card fits screen */
+  .auth-card {
+    padding: 24px 16px 20px !important;
+    margin: 8px !important;
+    width: calc(100% - 16px) !important;
+    max-width: 100% !important;
+  }
+
+  /* Inputs large enough to prevent zoom on iOS/Android */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  .auth-input {
+    font-size: 16px !important;
+    padding: 12px 14px !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

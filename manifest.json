@@ -8,8 +8,7 @@
   "display": "standalone",
   "display_override": [
     "standalone",
-    "minimal-ui",
-    "browser"
+    "minimal-ui"
   ],
   "orientation": "portrait",
   "background_color": "#0B0F14",
@@ -105,5 +104,6 @@
     {
       "origin": "https://ekereccnalab.netlify.app"
     }
-  ]
+  ],
+  "handle_links": "preferred"
 }
