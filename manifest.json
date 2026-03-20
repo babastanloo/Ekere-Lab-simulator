@@ -6,13 +6,20 @@
   "start_url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
   "scope": "https://babastanloo.github.io/Ekere-Lab-simulator/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "browser"],
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
   "orientation": "portrait",
   "background_color": "#0B0F14",
   "theme_color": "#14B8A6",
   "lang": "en-US",
   "dir": "ltr",
-  "categories": ["education", "productivity"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "icons": [
     {
@@ -69,14 +76,34 @@
       "short_name": "Practice",
       "description": "Jump straight into CCNA practice questions",
       "url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
-      "icons": [{ "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Exam Mode",
       "short_name": "Exam",
       "description": "Start a timed CCNA exam simulation",
       "url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
-      "icons": [{ "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "scope_extensions": [
+    {
+      "origin": "https://babastanloo.github.io"
+    },
+    {
+      "origin": "https://ekereccnalab.netlify.app"
     }
   ]
 }
