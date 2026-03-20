@@ -2,8 +2,8 @@
   "name": "Ekere Labs",
   "short_name": "Ekere Labs",
   "description": "Master Networking Through Practice. Interactive CCNA 200-301 exam simulator with AI tutoring, CLI labs, and 1000+ practice questions.",
-  "start_url": "https://ekereccnalab.netlify.app/",
-  "scope": "https://ekereccnalab.netlify.app/",
+  "start_url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
+  "scope": "https://babastanloo.github.io/Ekere-Lab-simulator/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0B0F14",
@@ -13,25 +13,25 @@
   "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "https://ekereccnalab.netlify.app/icon-192.png",
+      "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://ekereccnalab.netlify.app/icon-192.png",
+      "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "https://ekereccnalab.netlify.app/icon-512.png",
+      "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://ekereccnalab.netlify.app/icon-512.png",
+      "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -39,7 +39,7 @@
   ],
   "screenshots": [
     {
-      "src": "https://ekereccnalab.netlify.app/icon-512.png",
+      "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
@@ -47,28 +47,20 @@
     }
   ],
   "prefer_related_applications": false,
-  "related_applications": [],
   "shortcuts": [
     {
       "name": "Practice Questions",
       "short_name": "Practice",
       "description": "Jump straight into practice questions",
-      "url": "https://ekereccnalab.netlify.app/?view=practice",
-      "icons": [{ "src": "https://ekereccnalab.netlify.app/icon-192.png", "sizes": "192x192", "type": "image/png" }]
-    },
-    {
-      "name": "CLI Labs",
-      "short_name": "Labs",
-      "description": "Open CLI simulation labs",
-      "url": "https://ekereccnalab.netlify.app/?view=labs",
-      "icons": [{ "src": "https://ekereccnalab.netlify.app/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
+      "icons": [{ "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Exam Mode",
       "short_name": "Exam",
       "description": "Start a timed exam simulation",
-      "url": "https://ekereccnalab.netlify.app/?view=exam",
-      "icons": [{ "src": "https://ekereccnalab.netlify.app/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "url": "https://babastanloo.github.io/Ekere-Lab-simulator/",
+      "icons": [{ "src": "https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }
