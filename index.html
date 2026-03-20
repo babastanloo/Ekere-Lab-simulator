@@ -3,11 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#0c1e22" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#e8eef0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0F14">
+<meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: light)">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ekere Labs">
+<meta name="application-name" content="Ekere Labs">
+<meta name="description" content="Master CCNA 200-301 with interactive practice questions, CLI labs, and AI-powered tutoring.">
+<meta name="keywords" content="CCNA, networking, Cisco, exam simulator, practice questions">
+<meta name="author" content="Ekere Labs">
+<!-- PWA Manifest -->
+<link rel="manifest" href="https://babastanloo.github.io/Ekere-Lab-simulator/manifest.json">
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png">
+<link rel="apple-touch-icon" sizes="120x120" href="https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://babastanloo.github.io/Ekere-Lab-simulator/icon-192.png">
+<!-- Open Graph -->
+<meta property="og:title" content="Ekere Labs — CCNA Simulator">
+<meta property="og:description" content="Master Networking Through Practice. Interactive CCNA 200-301 exam simulator.">
+<meta property="og:url" content="https://babastanloo.github.io/Ekere-Lab-simulator/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://babastanloo.github.io/Ekere-Lab-simulator/icon-512.png">
 <title>Ekere Labs — CCNA Simulator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8330,33 +8350,20 @@ window.onload=function(){
 
   /* ── Crypto helpers ─────────────────────────────────────────── */
   async function hashPassword(password, salt) {
-    // PBKDF2-like: SHA-256(salt + ":" + password) × 10 000 iterations
-    // Falls back to SHA-256 concat if SubtleCrypto unavailable
-    if (!window.crypto || !window.crypto.subtle) {
-      // Fallback: plain SHA-256 (SubtleCrypto not available, e.g., file://)
-      return await sha256(salt + ':' + password);
-    }
-    const enc  = new TextEncoder();
-    const base = await window.crypto.subtle.importKey(
-      'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']
-    );
-    const bits = await window.crypto.subtle.deriveBits(
-      { name: 'PBKDF2', salt: enc.encode(salt), iterations: 100000, hash: 'SHA-256' },
-      base, 256
-    );
-    return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-
-  async function sha256(str) {
+    // SHA-256(salt + ":" + password) — fast, non-blocking, secure enough for localStorage auth
+    const str = salt + ':' + password;
     if (window.crypto && window.crypto.subtle) {
       const buf  = new TextEncoder().encode(str);
       const hash = await window.crypto.subtle.digest('SHA-256', buf);
-      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+      return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
     }
-    // Very simple fallback (not cryptographic — only for file:// edge-case)
-    let h = 0;
-    for (let i = 0; i < str.length; i++) { h = (Math.imul(31, h) + str.charCodeAt(i)) | 0; }
-    return Math.abs(h).toString(16).padStart(8,'0') + Date.now().toString(36);
+    // Fallback for file:// or older browsers
+    let h = 5381;
+    for (let i = 0; i < str.length; i++) {
+      h = (Math.imul(h, 33) ^ str.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(16).padStart(8, '0') + str.length.toString(16);
   }
 
   function generateSalt() {
@@ -8365,7 +8372,24 @@ window.onload=function(){
     return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
   }
 
-  /* ── Storage helpers ────────────────────────────────────────── */
+  // Clear any accounts created with the old PBKDF2 hasher (hash length was 64 chars)
+  // New SHA-256 hashes are also 64 chars but PBKDF2 bits were stored differently
+  // Safest: wipe stale data so users re-register cleanly
+  (function migrateAuth() {
+    try {
+      const users = JSON.parse(localStorage.getItem('ekere_v2_users') || '{}');
+      let needsWipe = false;
+      for (const key in users) {
+        // Old PBKDF2 hashes are exactly 64 hex chars stored from deriveBits(256)
+        // We mark them with a version flag going forward; if no version, it's old data
+        if (users[key] && !users[key].v) { needsWipe = true; break; }
+      }
+      if (needsWipe) {
+        localStorage.removeItem('ekere_v2_users');
+        localStorage.removeItem('ekere_v2_session');
+      }
+    } catch(e) {}
+  })();
   function getUsers()    { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'); } catch { return {}; } }
   function saveUsers(u)  { localStorage.setItem(AUTH_KEY, JSON.stringify(u)); }
   function getSession()  { try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } }
@@ -8553,7 +8577,7 @@ window.onload=function(){
       }
       const salt = generateSalt();
       const hash = await hashPassword(pw, salt);
-      users[email.toLowerCase()] = { name, salt, hash, created: Date.now() };
+      users[email.toLowerCase()] = { name, salt, hash, created: Date.now(), v: 2 };
       saveUsers(users);
       saveSession({ email: email.toLowerCase(), name, expires: Date.now() + SESSION_TTL_MS });
       authRevealApp(name);
@@ -8695,6 +8719,55 @@ window.onload=function(){
 
 })();
 
+/* ── PWA Service Worker Registration ── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('SW registered:', reg.scope); })
+      .catch(function(err) { console.log('SW registration failed:', err); });
+  });
+}
+
+/* ── PWA Install Prompt (Android Add to Home Screen banner) ── */
+let _pwaInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _pwaInstallPrompt = e;
+  // Show a subtle install button if user isn't already in standalone mode
+  if (window.matchMedia('(display-mode: standalone)').matches) return;
+  const btn = document.createElement('button');
+  btn.id = 'pwa-install-btn';
+  btn.innerHTML = '📲 Install App';
+  btn.style.cssText = [
+    'position:fixed','bottom:80px','right:14px','z-index:9999',
+    'background:linear-gradient(135deg,#14B8A6,#0EA5A4)',
+    'color:#fff','border:none','border-radius:22px',
+    'padding:10px 18px','font-family:Inter,sans-serif',
+    'font-size:13px','font-weight:600','cursor:pointer',
+    'box-shadow:0 4px 20px rgba(20,184,166,0.4)',
+    'display:flex','align-items:center','gap:7px',
+    'animation:pwaFadeIn .4s ease both',
+    'letter-spacing:-0.01em'
+  ].join(';');
+  document.body.appendChild(btn);
+  // Inject fade-in keyframe
+  const s = document.createElement('style');
+  s.textContent = '@keyframes pwaFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(s);
+  btn.addEventListener('click', function() {
+    _pwaInstallPrompt.prompt();
+    _pwaInstallPrompt.userChoice.then(function(r) {
+      if (r.outcome === 'accepted') btn.remove();
+      _pwaInstallPrompt = null;
+    });
+  });
+});
+
+window.addEventListener('appinstalled', function() {
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.remove();
+  _pwaInstallPrompt = null;
+});
 </script>
 </body>
 </html>
